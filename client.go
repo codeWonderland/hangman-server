@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"golang.org/x/net/websocket"
+	"strconv"
 )
 
 type Client struct {
@@ -69,10 +70,10 @@ func (c *Client) listenToRead() {
 
 				broadcast(&Message{"Letter", msg.Body}) // if the user gets a correct letter, notify clients
 
-				for _, user := range usernames {
+				for index, user := range usernames {
 					if msg.Author == user.username {
-						user.score++
-						broadcast(&Message{msg.Author, string(user.score)})
+						usernames[index].score++
+						broadcast(&Message{msg.Author, strconv.Itoa(usernames[index].score)})
 						break
 					}
 				}

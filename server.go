@@ -5,6 +5,7 @@ import (
 
 	"golang.org/x/net/websocket"
 	"math/rand"
+	"time"
 )
 
 var words = []string{"programmer", "ambient", "diffuser", "aesthetic", "alternative"}
@@ -43,5 +44,6 @@ func addClientAndGreet(list []Client, client Client) []Client {
 }
 
 func randWord() *Word {
+	rand.Seed(time.Now().UTC().UnixNano())
 	return makeWord(words[rand.Int() % 5])
 }
