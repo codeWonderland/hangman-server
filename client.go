@@ -68,7 +68,7 @@ func (c *Client) listenToRead() {
 
 			} else if guessLetter(myWord, msg.Body) {
 
-				broadcast(&Message{"Letter", msg.Body}) // if the user gets a correct letter, notify clients
+				broadcast(&Message{"Word", myWord.encryptedWord}) // if the user gets a correct letter, notify clients
 
 				for index, user := range usernames {
 					if msg.Author == user.username {

@@ -6,11 +6,15 @@ type Word struct {
 	word string
 	lettersGuessed []string
 	lettersLeft []string
+	encryptedWord string
 }
 
 func makeWord(word string) *Word {
+	makeEncrypt := func(_ rune) rune { return '?'}
 	var letters = unique(strings.Split(strings.ToLower(word), ""))
-	return &Word{word: word, lettersLeft: letters}
+	var encrypt = strings.Map(makeEncrypt, word)
+
+	return &Word{word: word, lettersLeft: letters, encryptedWord: encrypt}
 }
 
 func guessLetter(myWord *Word, letterGuess string) bool {
@@ -18,10 +22,21 @@ func guessLetter(myWord *Word, letterGuess string) bool {
 		if letter == letterGuess {
 			myWord.lettersGuessed = append(myWord.lettersGuessed, letterGuess)
 			myWord.lettersLeft = remove(myWord.lettersLeft, index)
+			revealLetter(myWord, letterGuess)
 			return true
 		}
 	}
 	return false
+}
+
+func revealLetter(myWord *Word, letter string) {
+	var splitQuestions = strings.Split(myWord.encryptedWord, "")
+	for i := 0; i < len(myWord.word); i ++ {
+		if myWord.word[i] == letter[0] {
+			splitQuestions[i] = letter
+		}
+	}
+	myWord.encryptedWord = strings.Join(splitQuestions, "")
 }
 
 // Function is a modified version of http://www.golangprograms.com/remove-duplicate-values-from-slice.html

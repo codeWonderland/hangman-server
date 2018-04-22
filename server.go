@@ -33,7 +33,7 @@ func broadcast(msg *Message) {
 func addClientAndGreet(list []Client, client Client) []Client {
 	clients = append(list, client)
 	websocket.JSON.Send(client.connection, Message{"Server", "Welcome!"})
-	websocket.JSON.Send(client.connection, Message{"Word", myWord.word})
+	websocket.JSON.Send(client.connection, Message{"Word", myWord.encryptedWord})
 
 
 
